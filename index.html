@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rishabh Sharma</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=JetBrains+Mono:wght@300;400;500&family=Syne:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0d0d0d;
+      --bg2: #111111;
+      --bg3: #161616;
+      --border: #252525;
+      --amber: #f5a623;
+      --amber-dim: #c07d0a;
+      --amber-glow: rgba(245, 166, 35, 0.12);
+      --text: #e8e0d0;
+      --text-dim: #7a7060;
+      --text-mid: #b0a89a;
+      --white: #f0ebe0;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ─── NOISE OVERLAY ─── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.35;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.4rem 3rem;
+      border-bottom: 1px solid transparent;
+      transition: all 0.4s ease;
+      backdrop-filter: blur(0px);
+    }
+    nav.scrolled {
+      border-bottom-color: var(--border);
+      background: rgba(13,13,13,0.85);
+      backdrop-filter: blur(16px);
+    }
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+      letter-spacing: 0.05em;
+      color: var(--amber);
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--amber); }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 0 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-bg-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 60px 60px;
+      opacity: 0.3;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+    }
+    .hero-glow {
+      position: absolute;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(245,166,35,0.07) 0%, transparent 70%);
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+    .hero-left { position: relative; z-index: 1; }
+    .hero-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.2s forwards;
+    }
+    .hero-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.5rem, 6vw, 6.5rem);
+      font-weight: 300;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: var(--white);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.4s forwards;
+    }
+    .hero-name span {
+      color: var(--amber);
+      font-style: italic;
+    }
+    .hero-tagline {
+      font-size: 0.8rem;
+      color: var(--text-mid);
+      max-width: 420px;
+      line-height: 1.9;
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.6s forwards;
+    }
+    .hero-cta {
+      display: flex; gap: 1rem; flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.8s forwards;
+    }
+    .btn {
+      display: inline-block;
+      padding: 0.7rem 1.6rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: all 0.25s ease;
+    }
+    .btn-primary {
+      background: var(--amber);
+      color: #0d0d0d;
+      font-weight: 500;
+    }
+    .btn-primary:hover { background: #ffc44d; transform: translateY(-2px); }
+    .btn-outline {
+      border: 1px solid var(--border);
+      color: var(--text-mid);
+    }
+    .btn-outline:hover { border-color: var(--amber); color: var(--amber); transform: translateY(-2px); }
+
+    .hero-right {
+      position: relative; z-index: 1;
+      display: flex; justify-content: flex-end; align-items: center;
+    }
+    .hero-stats {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+      border: 1px solid var(--border);
+      opacity: 0;
+      animation: fadeIn 1s 1s forwards;
+    }
+    .stat-box {
+      padding: 2rem 1.8rem;
+      border: 1px solid var(--border);
+      background: var(--bg2);
+      position: relative;
+      overflow: hidden;
+    }
+    .stat-box::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--amber), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .stat-box:hover::before { opacity: 1; }
+    .stat-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--amber);
+      display: block;
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+    .stat-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* ─── SECTION BASE ─── */
+    section { padding: 6rem 3rem; }
+    .section-header {
+      display: flex; align-items: center; gap: 1.5rem;
+      margin-bottom: 4rem;
+    }
+    .section-tag {
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--amber);
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 300;
+      color: var(--white);
+      line-height: 1.1;
+    }
+    .section-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+      max-width: 200px;
+    }
+
+    /* ─── EXPERIENCE ─── */
+    #experience { background: var(--bg); }
+    .exp-grid { display: flex; flex-direction: column; gap: 0; }
+    .exp-item {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 0;
+      gap: 3rem;
+      transition: all 0.3s;
+      position: relative;
+    }
+    .exp-item::before {
+      content: '';
+      position: absolute; left: -3rem; right: -3rem; top: 0; bottom: 0;
+      background: var(--amber-glow);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .exp-item:hover::before { opacity: 1; }
+    .exp-meta { position: relative; }
+    .exp-company {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: var(--amber);
+      letter-spacing: 0.05em;
+      margin-bottom: 0.3rem;
+    }
+    .exp-role {
+      font-size: 0.7rem;
+      color: var(--text-mid);
+      margin-bottom: 0.2rem;
+    }
+    .exp-period {
+      font-size: 0.62rem;
+      color: var(--text-dim);
+      letter-spacing: 0.1em;
+    }
+    .exp-content { position: relative; }
+    .exp-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+    .exp-bullets { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+    .exp-bullets li {
+      font-size: 0.75rem;
+      color: var(--text-mid);
+      padding-left: 1.2rem;
+      position: relative;
+      line-height: 1.7;
+    }
+    .exp-bullets li::before {
+      content: '→';
+      position: absolute; left: 0;
+      color: var(--amber);
+      font-size: 0.65rem;
+    }
+    .exp-tag {
+      display: inline-block;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      color: var(--amber);
+      font-size: 0.58rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.15rem 0.6rem;
+      margin-bottom: 0.8rem;
+    }
+
+    /* ─── PROJECTS ─── */
+    #projects { background: var(--bg2); }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 1px;
+      border: 1px solid var(--border);
+    }
+    .project-card {
+      background: var(--bg);
+      padding: 2.2rem;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      transition: background 0.3s;
+      text-decoration: none;
+      display: block;
+    }
+    .project-card:hover { background: var(--bg3); }
+    .project-card::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--amber), var(--amber-dim));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+    .project-card:hover::after { transform: scaleX(1); }
+    .project-icon {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+    .project-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 0.6rem;
+      letter-spacing: 0.03em;
+    }
+    .project-desc {
+      font-size: 0.72rem;
+      color: var(--text-mid);
+      line-height: 1.7;
+      margin-bottom: 1.2rem;
+    }
+    .project-tags {
+      display: flex; flex-wrap: wrap; gap: 0.4rem;
+    }
+    .ptag {
+      font-size: 0.58rem;
+      padding: 0.15rem 0.5rem;
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .project-link {
+      position: absolute; top: 1.5rem; right: 1.5rem;
+      font-size: 0.6rem;
+      color: var(--text-dim);
+      letter-spacing: 0.1em;
+      transition: color 0.2s;
+    }
+    .project-card:hover .project-link { color: var(--amber); }
+
+    /* ─── SKILLS ─── */
+    #skills { background: var(--bg); }
+    .skills-layout {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 4rem;
+      align-items: start;
+    }
+    .skills-intro {
+      font-size: 0.75rem;
+      color: var(--text-mid);
+      line-height: 1.9;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .skills-intro p { margin-bottom: 1rem; }
+    .skills-grid { display: flex; flex-direction: column; gap: 2rem; }
+    .skill-category {}
+    .skill-cat-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .skill-tags {
+      display: flex; flex-wrap: wrap; gap: 0.5rem;
+    }
+    .skill-tag {
+      font-size: 0.65rem;
+      padding: 0.3rem 0.8rem;
+      border: 1px solid var(--border);
+      color: var(--text-mid);
+      background: var(--bg2);
+      transition: all 0.2s;
+      letter-spacing: 0.05em;
+    }
+    .skill-tag:hover {
+      border-color: var(--amber);
+      color: var(--amber);
+      background: var(--amber-glow);
+    }
+
+    /* ─── EDUCATION ─── */
+    #education { background: var(--bg2); }
+    .edu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; border: 1px solid var(--border); }
+    .edu-card {
+      background: var(--bg);
+      padding: 2rem;
+      transition: background 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .edu-card:hover { background: var(--bg3); }
+    .edu-year {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.5rem;
+      font-weight: 300;
+      color: var(--border);
+      line-height: 1;
+      margin-bottom: 1rem;
+      transition: color 0.3s;
+    }
+    .edu-card:hover .edu-year { color: var(--amber-dim); }
+    .edu-degree {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 0.3rem;
+    }
+    .edu-school {
+      font-size: 0.65rem;
+      color: var(--text-dim);
+      margin-bottom: 0.8rem;
+      letter-spacing: 0.05em;
+    }
+    .edu-highlight {
+      font-size: 0.65rem;
+      color: var(--amber);
+      background: var(--amber-glow);
+      border: 1px solid rgba(245,166,35,0.2);
+      padding: 0.3rem 0.6rem;
+      display: inline-block;
+    }
+
+    /* ─── ACHIEVEMENTS ─── */
+    #achievements { background: var(--bg); }
+    .achieve-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .achieve-item {
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      background: var(--bg2);
+      position: relative;
+      transition: all 0.3s;
+    }
+    .achieve-item:hover { border-color: var(--amber-dim); background: var(--bg3); }
+    .achieve-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--border);
+      position: absolute; top: 1rem; right: 1.2rem;
+      line-height: 1;
+      transition: color 0.3s;
+    }
+    .achieve-item:hover .achieve-num { color: var(--amber-dim); }
+    .achieve-text {
+      font-size: 0.72rem;
+      color: var(--text-mid);
+      line-height: 1.7;
+      max-width: 80%;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 3rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      background: var(--bg2);
+    }
+    .footer-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      font-weight: 300;
+      color: var(--white);
+    }
+    .footer-name span { color: var(--amber); font-style: italic; }
+    .footer-contact {
+      display: flex; flex-direction: column; align-items: flex-end; gap: 0.4rem;
+    }
+    .footer-contact a {
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      transition: color 0.2s;
+    }
+    .footer-contact a:hover { color: var(--amber); }
+    .footer-copy {
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      color: var(--text-dim);
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-align: center;
+      grid-column: 1 / -1;
+    }
+
+    /* ─── SCROLL REVEAL ─── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ─── SCROLLBAR ─── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); }
+    ::-webkit-scrollbar-thumb:hover { background: var(--amber-dim); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      nav { padding: 1.2rem 1.5rem; }
+      .nav-links { gap: 1.5rem; }
+      .hero { grid-template-columns: 1fr; padding: 8rem 1.5rem 4rem; gap: 3rem; }
+      .hero-right { justify-content: flex-start; }
+      .hero-stats { grid-template-columns: 1fr 1fr; }
+      section { padding: 4rem 1.5rem; }
+      .exp-item { grid-template-columns: 1fr; gap: 1rem; }
+      .skills-layout { grid-template-columns: 1fr; }
+      .edu-grid { grid-template-columns: 1fr; }
+      .achieve-grid { grid-template-columns: 1fr; }
+      footer { grid-template-columns: 1fr; gap: 2rem; }
+      .footer-contact { align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <a class="nav-logo" href="#">RS</a>
+    <ul class="nav-links">
+      <li><a href="#experience">Work</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="mailto:rsharma5752@gmail.com">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg-grid"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-left">
+      <p class="hero-label">// Analyst · Builder · Researcher</p>
+      <h1 class="hero-name">Rishabh<br><span>Sharma</span></h1>
+      <p class="hero-tagline">
+        AI/ML engineer and analyst at Bain &amp; Company. I build GenAI products,
+        co-founded an EV-tech startup, and publish research on NLP &amp; mental health AI.
+        Based in Gurugram, India.
+      </p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="mailto:rsharma5752@gmail.com">Get in Touch</a>
+        <a class="btn btn-outline" href="https://www.linkedin.com/in/" target="_blank">LinkedIn ↗</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-stats">
+        <div class="stat-box">
+          <span class="stat-number">97%</span>
+          <span class="stat-label">Extraction Accuracy<br>MetricEdge OCR Pipeline</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-number">10+</span>
+          <span class="stat-label">Global Practices<br>Automated via MetricEdge</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-number">3×</span>
+          <span class="stat-label">Published Researcher<br>AI / NLP Conferences</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-number">2.3k</span>
+          <span class="stat-label">EV Charging Points<br>Onboarded via SelectricGo</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-header reveal">
+      <span class="section-tag">01</span>
+      <h2 class="section-title">Experience</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="exp-grid">
+
+      <div class="exp-item reveal">
+        <div class="exp-meta">
+          <p class="exp-company">Bain &amp; Company</p>
+          <p class="exp-role">Analyst</p>
+          <p class="exp-period">Jul 2024 – Present</p>
+        </div>
+        <div class="exp-content">
+          <span class="exp-tag">Full-time · Gurugram</span>
+          <h3 class="exp-title">GenAI Products &amp; Analytics</h3>
+          <ul class="exp-bullets">
+            <li>Co-founded and built <strong>MetricEdge</strong>, Bain's internal end-to-end GenAI product for data scraping and benchmarking — outperforms legacy LLMs on complex PPT graphs using an OCR-free pipeline at 97% accuracy</li>
+            <li>Reverse-engineered PPT bin files to strengthen data extraction, cutting manual efforts by 70%; deployed on Azure and presented to Bain's CTO and senior AI leadership</li>
+            <li>Deployed MetricEdge for 10+ global practices (retail, consumer products, enterprise tech, advanced manufacturing), saving 15+ FTE hours/week per practice</li>
+            <li>Built a multi-agent chatbot for financial services that uses KPI-mapping agents to retrieve benchmark KPIs from Bain's proprietary database</li>
+            <li>Developed a GenAI tool for the AI &amp; Data Governance team generating 150+ personalised compliance reports with scores, gaps, and remediation actions</li>
+            <li>Top 5% firm-wide — rated "Far Exceeded Expectations" in problem-solving and case delivery; one of the highest-rated analysts</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="exp-item reveal">
+        <div class="exp-meta">
+          <p class="exp-company">Bain &amp; Company</p>
+          <p class="exp-role">Analyst Intern</p>
+          <p class="exp-period">Jan 2024 – Jul 2024</p>
+        </div>
+        <div class="exp-content">
+          <span class="exp-tag">Internship · Gurugram</span>
+          <h3 class="exp-title">FMCG Data &amp; Deep Learning</h3>
+          <ul class="exp-bullets">
+            <li>Partnered with one of the largest multinational FMCG companies operating in 23+ countries in the coffee sector</li>
+            <li>Analysed business trends using Alteryx, SQL, Python, Excel, and Snowflake; reported findings in a consolidated dashboard</li>
+            <li>Implemented a deep learning algorithm to automate business trend report generation, increasing efficiency by 66%</li>
+            <li>Received a Pre-Placement Offer (PPO) to join full-time as an Analyst</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="exp-item reveal">
+        <div class="exp-meta">
+          <p class="exp-company">SelectricGo</p>
+          <p class="exp-role">Co-Founder &amp; CEO</p>
+          <p class="exp-period">Apr 2021 – Dec 2023</p>
+        </div>
+        <div class="exp-content">
+          <span class="exp-tag">Startup · Delhi</span>
+          <h3 class="exp-title">EV Data &amp; AI Platform</h3>
+          <ul class="exp-bullets">
+            <li>Built and led a 15-member team at SelectricGo — an AI and data science startup providing EV charging station data, pricing, live traffic, and route planning</li>
+            <li>Onboarded 2,300+ charging points across India; incubated at AIC Sangam cleantech incubator; secured a strategic partnership with MathWorks</li>
+            <li>Built proprietary live-traffic sensing technology (patent filed); reached top 10% of Y Combinator applications in Summer 2022</li>
+            <li>Secured a $7,000 grant from the Government of India; built an in-house route optimizer for personalised EV trip planning</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PROJECTS / RESEARCH -->
+  <section id="projects">
+    <div class="section-header reveal">
+      <span class="section-tag">02</span>
+      <h2 class="section-title">Research &amp; Projects</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="projects-grid">
+
+      <a class="project-card reveal" href="#" target="_blank">
+        <span class="project-icon">🧠</span>
+        <span class="project-link">↗ CODE AI'24</span>
+        <h3 class="project-name">Mental Health AI — Bachelor's Thesis</h3>
+        <p class="project-desc">Developed a Hierarchical Attention Network (HAN) model using transcripts, audio, and video from clinical DAIC-WOZ interviews to build a binary depression-symptom classifier. Received A+ (highest in department).</p>
+        <div class="project-tags">
+          <span class="ptag">Deep Learning</span>
+          <span class="ptag">NLP</span>
+          <span class="ptag">Multi-Modal</span>
+          <span class="ptag">DTU</span>
+        </div>
+      </a>
+
+      <a class="project-card reveal" href="#" target="_blank">
+        <span class="project-icon">⚡</span>
+        <span class="project-link">↗ 1st Place · MIT</span>
+        <h3 class="project-name">Power for People — MIT Policy Hackathon</h3>
+        <p class="project-desc">Led the 1st-place solution at the 2025 MIT Policy Hackathon. Created the 'Power for People' two-phase DER framework that reduced Ohio case solar payback from 25.4 to 18.8 years. Built the GridCoin Calculator to model export credits, grid fees, and VPP rewards.</p>
+        <div class="project-tags">
+          <span class="ptag">Energy Policy</span>
+          <span class="ptag">DER</span>
+          <span class="ptag">Modelling</span>
+          <span class="ptag">MIT</span>
+        </div>
+      </a>
+
+      <a class="project-card reveal" href="#" target="_blank">
+        <span class="project-icon">🔐</span>
+        <span class="project-link">↗ IN-CAACT'24</span>
+        <h3 class="project-name">NLP Model Robustness — Biometrics Lab</h3>
+        <p class="project-desc">Explored adversarial ML techniques against NLP models. Developed a custom attack 'BEACOMP' using TextAttack that dropped accuracy across 5 models from 97.16% to 1.91% on average. Published at IN-CAACT'24.</p>
+        <div class="project-tags">
+          <span class="ptag">Adversarial ML</span>
+          <span class="ptag">NLP</span>
+          <span class="ptag">TextAttack</span>
+        </div>
+      </a>
+
+      <a class="project-card reveal" href="#" target="_blank">
+        <span class="project-icon">🚗</span>
+        <span class="project-link">↗ IATMSI'25</span>
+        <h3 class="project-name">EV Sentiment Analysis — NLP Research</h3>
+        <p class="project-desc">Analysed Indian EV industry perception by fetching real-time tweets via Tweepy and applying NLP sentiment analysis. Research presented at IATMSI'25.</p>
+        <div class="project-tags">
+          <span class="ptag">NLP</span>
+          <span class="ptag">Sentiment</span>
+          <span class="ptag">EV Industry</span>
+          <span class="ptag">Twitter API</span>
+        </div>
+      </a>
+
+      <a class="project-card reveal" href="#" target="_blank">
+        <span class="project-icon">📊</span>
+        <span class="project-link">↗ Case Studies</span>
+        <h3 class="project-name">Startup Product &amp; GTM Strategy</h3>
+        <p class="project-desc">Analysed startups, proposed customer-growth strategies using market share analysis, user stories, competitor mapping, FIGMA wireframes, and RICE-scored feature prioritisation with full GTM recommendations.</p>
+        <div class="project-tags">
+          <span class="ptag">Product</span>
+          <span class="ptag">Strategy</span>
+          <span class="ptag">FIGMA</span>
+          <span class="ptag">RICE</span>
+        </div>
+      </a>
+
+      <a class="project-card reveal" href="#" target="_blank">
+        <span class="project-icon">🤖</span>
+        <span class="project-link">↗ Internal Tool</span>
+        <h3 class="project-name">MetricEdge — GenAI Benchmarking Engine</h3>
+        <p class="project-desc">Co-founded and built Bain's internal GenAI product — an OCR-free pipeline that extracts data from complex PPT graphs at 97% accuracy, deployed on Azure and rolled out to 10+ global practices.</p>
+        <div class="project-tags">
+          <span class="ptag">GenAI</span>
+          <span class="ptag">Azure</span>
+          <span class="ptag">OCR-free</span>
+          <span class="ptag">Agentic AI</span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-header reveal">
+      <span class="section-tag">03</span>
+      <h2 class="section-title">Skills</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="skills-layout">
+      <div class="skills-intro reveal">
+        <p>I work across the full spectrum from research to production — from building adversarial NLP attacks in academic settings to deploying enterprise GenAI tools on Azure at Bain.</p>
+        <p>I'm most energised at the intersection of AI, product strategy, and business impact.</p>
+      </div>
+      <div class="skills-grid reveal">
+        <div class="skill-category">
+          <p class="skill-cat-label">// Languages &amp; Databases</p>
+          <div class="skill-tags">
+            <span class="skill-tag">Python</span>
+            <span class="skill-tag">SQL</span>
+            <span class="skill-tag">C++</span>
+            <span class="skill-tag">Java</span>
+            <span class="skill-tag">Snowflake</span>
+            <span class="skill-tag">XML</span>
+          </div>
+        </div>
+        <div class="skill-category">
+          <p class="skill-cat-label">// AI / ML Frameworks</p>
+          <div class="skill-tags">
+            <span class="skill-tag">PyTorch</span>
+            <span class="skill-tag">TensorFlow</span>
+            <span class="skill-tag">GenAI</span>
+            <span class="skill-tag">Agentic AI</span>
+            <span class="skill-tag">NLP</span>
+            <span class="skill-tag">Deep Learning</span>
+            <span class="skill-tag">Machine Learning</span>
+          </div>
+        </div>
+        <div class="skill-category">
+          <p class="skill-cat-label">// Cloud &amp; Data Tools</p>
+          <div class="skill-tags">
+            <span class="skill-tag">Azure</span>
+            <span class="skill-tag">AWS</span>
+            <span class="skill-tag">Alteryx</span>
+            <span class="skill-tag">Tableau</span>
+            <span class="skill-tag">QuickSight</span>
+            <span class="skill-tag">Excel</span>
+            <span class="skill-tag">Qualtrics</span>
+          </div>
+        </div>
+        <div class="skill-category">
+          <p class="skill-cat-label">// Product &amp; Design</p>
+          <div class="skill-tags">
+            <span class="skill-tag">Product Management</span>
+            <span class="skill-tag">Strategy</span>
+            <span class="skill-tag">FIGMA</span>
+            <span class="skill-tag">Canva</span>
+            <span class="skill-tag">App Development</span>
+            <span class="skill-tag">RICE Framework</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education">
+    <div class="section-header reveal">
+      <span class="section-tag">04</span>
+      <h2 class="section-title">Education</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="edu-grid">
+      <div class="edu-card reveal">
+        <p class="edu-year">2024</p>
+        <p class="edu-degree">B.Tech — Electrical Engineering</p>
+        <p class="edu-school">Delhi Technological University, Delhi</p>
+        <span class="edu-highlight">8.25 / 10 CGPA · Highest thesis grade</span>
+      </div>
+      <div class="edu-card reveal">
+        <p class="edu-year">2019</p>
+        <p class="edu-degree">CBSE Class XII</p>
+        <p class="edu-school">Kendriya Vidyalaya Arjangarh, Delhi</p>
+        <span class="edu-highlight">93.50% · Top 1% JEE Maths nationwide</span>
+      </div>
+      <div class="edu-card reveal">
+        <p class="edu-year">2017</p>
+        <p class="edu-degree">CBSE Class X</p>
+        <p class="edu-school">Kendriya Vidyalaya Arjangarh, Delhi</p>
+        <span class="edu-highlight">10 / 10 CGPA · Top 0.1% nationally</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ACHIEVEMENTS -->
+  <section id="achievements">
+    <div class="section-header reveal">
+      <span class="section-tag">05</span>
+      <h2 class="section-title">Achievements</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="achieve-grid">
+      <div class="achieve-item reveal">
+        <span class="achieve-num">01</span>
+        <p class="achieve-text">First runner-up at Startup Weekend 2021 DTU — competed against student entrepreneurs from across the university</p>
+      </div>
+      <div class="achieve-item reveal">
+        <span class="achieve-num">02</span>
+        <p class="achieve-text">Finalist (Top 10 out of 200+ participants) at EO Global Student Entrepreneur Awards, Delhi Region — in both 2021 and 2022</p>
+      </div>
+      <div class="achieve-item reveal">
+        <span class="achieve-num">03</span>
+        <p class="achieve-text">Top 10% of Y Combinator applications, Summer 2022 — one of very few Indian student-led teams to reach this threshold</p>
+      </div>
+      <div class="achieve-item reveal">
+        <span class="achieve-num">04</span>
+        <p class="achieve-text">National-level Djembe (West African drum) player and State-level Table Tennis player — driven by the same discipline as engineering</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-name">Rishabh <span>Sharma</span></div>
+    <div class="footer-contact">
+      <a href="mailto:rsharma5752@gmail.com">rsharma5752@gmail.com</a>
+      <a href="tel:+919871649498">+91 98716 49498</a>
+      <a href="https://www.linkedin.com/in/" target="_blank">LinkedIn ↗</a>
+      <a href="https://github.com/" target="_blank">GitHub ↗</a>
+    </div>
+    <p class="footer-copy">© 2025 Rishabh Sharma · Built with intention.</p>
+  </footer>
+
+  <script>
+    // Sticky nav
+    const nav = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 80);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08 });
+    reveals.forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
