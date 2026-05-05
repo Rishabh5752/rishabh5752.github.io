@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rishabh Sharma</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Outfit:wght@300;400;500&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    :root {
+      --bg:        #f7f5f0;
+      --card:      #ffffff;
+      --text:      #1a1a22;
+      --mid:       #52525e;
+      --light:     #9494a2;
+      --border:    #e4e0d8;
+      --link:      #2563eb;
+
+      /* Phase colours */
+      --now:       #2563eb;   /* current Bain */
+      --bain:      #6d28d9;   /* analyst era  */
+      --startup:   #ea580c;   /* SelectricGo  */
+      --research:  #0d9488;   /* papers       */
+      --edu:       #b45309;   /* education    */
+
+      --now-bg:    #eff6ff;
+      --bain-bg:   #f5f3ff;
+      --startup-bg:#fff7ed;
+      --research-bg:#f0fdfa;
+      --edu-bg:    #fffbeb;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Outfit', sans-serif;
+      font-size: 15px;
+      line-height: 1.75;
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 4.5rem 2rem 7rem;
+    }
+
+    a { color: var(--link); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── HEADER ── */
+    header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 2rem;
+      align-items: center;
+      padding-bottom: 3rem;
+      margin-bottom: 3rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 2.8rem);
+      font-weight: 500;
+      color: var(--text);
+      line-height: 1.1;
+      margin-bottom: 0.4rem;
+    }
+    .name em {
+      font-style: italic;
+      color: var(--now);
+    }
+
+    .title-line {
+      font-size: 0.85rem;
+      color: var(--mid);
+      font-weight: 300;
+      margin-bottom: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .live-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--now);
+      display: inline-block;
+      box-shadow: 0 0 0 0 rgba(37,99,235,0.5);
+      animation: pulse 2s infinite;
+      flex-shrink: 0;
+    }
+    @keyframes pulse {
+      0%   { box-shadow: 0 0 0 0 rgba(37,99,235,0.45); }
+      70%  { box-shadow: 0 0 0 7px rgba(37,99,235,0); }
+      100% { box-shadow: 0 0 0 0 rgba(37,99,235,0); }
+    }
+
+    .header-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.2rem 1.2rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--light);
+    }
+    .header-links a { color: var(--link); }
+
+    .photo {
+      width: 115px; height: 115px;
+      border-radius: 50%;
+      background: var(--now-bg);
+      border: 2px solid #bfdbfe;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .photo img { width: 100%; height: 100%; object-fit: cover; }
+    .photo span {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.58rem;
+      color: var(--light);
+      text-align: center;
+      line-height: 1.5;
+      padding: 0.5rem;
+    }
+
+    /* ── ABOUT ── */
+    .about {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.08rem;
+      font-weight: 400;
+      color: var(--mid);
+      line-height: 1.9;
+      margin-bottom: 3.5rem;
+      max-width: 680px;
+    }
+
+    /* ── SECTION LABEL ── */
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--light);
+      margin-bottom: 2rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ── JOURNEY TIMELINE ── */
+    .journey {
+      position: relative;
+      margin-bottom: 3.5rem;
+    }
+
+    /* vertical line */
+    .journey::before {
+      content: '';
+      position: absolute;
+      left: 10px;
+      top: 8px;
+      bottom: 8px;
+      width: 2px;
+      background: linear-gradient(
+        to bottom,
+        var(--now)     0%,
+        var(--bain)   30%,
+        var(--startup) 60%,
+        var(--research) 80%,
+        var(--edu)    100%
+      );
+      border-radius: 2px;
+    }
+
+    .stop {
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      gap: 1.5rem;
+      margin-bottom: 2.8rem;
+      position: relative;
+    }
+    .stop:last-child { margin-bottom: 0; }
+
+    /* dot */
+    .stop-dot {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      border: 2.5px solid;
+      background: white;
+      position: relative;
+      top: 2px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1;
+    }
+    .stop-dot.now    { border-color: var(--now);      background: var(--now-bg); }
+    .stop-dot.bain   { border-color: var(--bain);     background: var(--bain-bg); }
+    .stop-dot.startup{ border-color: var(--startup);  background: var(--startup-bg); }
+
+    .stop-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem 1.8rem;
+      position: relative;
+      transition: box-shadow 0.2s;
+    }
+    .stop-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.07); }
+
+    /* coloured left accent bar */
+    .stop-card::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      border-radius: 8px 0 0 8px;
+    }
+    .stop.now    .stop-card::before { background: var(--now); }
+    .stop.bain   .stop-card::before { background: var(--bain); }
+    .stop.startup .stop-card::before { background: var(--startup); }
+
+    .stop-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 0.45rem;
+      flex-wrap: wrap;
+    }
+    .stop-period {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--light);
+    }
+    .phase-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      font-weight: 400;
+      padding: 0.1rem 0.55rem;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .tag-now     { background: var(--now-bg);     color: var(--now);     border: 1px solid #bfdbfe; }
+    .tag-bain    { background: var(--bain-bg);    color: var(--bain);    border: 1px solid #ddd6fe; }
+    .tag-startup { background: var(--startup-bg); color: var(--startup); border: 1px solid #fed7aa; }
+
+    .stop-role {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 0.1rem;
+    }
+    .stop-org {
+      font-size: 0.8rem;
+      color: var(--light);
+      font-family: 'JetBrains Mono', monospace;
+      margin-bottom: 0.9rem;
+    }
+
+    .stop-prose {
+      font-size: 0.88rem;
+      color: var(--mid);
+      line-height: 1.82;
+    }
+    .stop-prose p { margin-bottom: 0.6rem; }
+    .stop-prose p:last-child { margin-bottom: 0; }
+    .stop-prose strong { color: var(--text); font-weight: 500; }
+
+    /* ── RESEARCH ── */
+    .research-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin-bottom: 3.5rem;
+    }
+    .paper {
+      display: grid;
+      grid-template-columns: 130px 1fr;
+      gap: 1.5rem;
+      padding: 1.2rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .paper:first-child { border-top: 1px solid var(--border); }
+    .paper-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--research);
+      background: var(--research-bg);
+      border: 1px solid #99f6e4;
+      border-radius: 4px;
+      padding: 0.2rem 0.5rem;
+      text-align: center;
+      align-self: start;
+      margin-top: 0.1rem;
+      line-height: 1.4;
+    }
+    .paper-title {
+      font-size: 0.87rem;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 0.25rem;
+    }
+    .paper-body {
+      font-size: 0.81rem;
+      color: var(--mid);
+      line-height: 1.7;
+    }
+
+    /* ── SKILLS + EDUCATION SIDE BY SIDE ── */
+    .bottom-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 3.5rem;
+    }
+
+    .skill-group { margin-bottom: 1rem; }
+    .skill-group:last-child { margin-bottom: 0; }
+    .skill-cat {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--light);
+      margin-bottom: 0.35rem;
+      letter-spacing: 0.05em;
+    }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+    .stag {
+      font-size: 0.75rem;
+      color: var(--mid);
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.15rem 0.55rem;
+    }
+
+    .edu-item { margin-bottom: 1.2rem; }
+    .edu-item:last-child { margin-bottom: 0; }
+    .edu-degree {
+      font-size: 0.87rem;
+      font-weight: 500;
+      color: var(--text);
+    }
+    .edu-school {
+      font-size: 0.78rem;
+      color: var(--mid);
+      margin-bottom: 0.15rem;
+    }
+    .edu-note {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--edu);
+      background: var(--edu-bg);
+      border: 1px solid #fde68a;
+      border-radius: 4px;
+      padding: 0.1rem 0.5rem;
+      display: inline-block;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding-top: 1.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--light);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      body { padding: 2.5rem 1.2rem 5rem; }
+      header { grid-template-columns: 1fr; }
+      .photo { width: 90px; height: 90px; }
+      .journey::before { left: 8px; }
+      .stop { grid-template-columns: 32px 1fr; gap: 1rem; }
+      .paper { grid-template-columns: 1fr; gap: 0.4rem; }
+      .bottom-grid { grid-template-columns: 1fr; gap: 2rem; }
+      footer { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div>
+      <h1 class="name">Rishabh <em>Sharma</em></h1>
+      <p class="title-line">
+        <span class="live-dot"></span>
+        Associate, Bain and Company &nbsp;·&nbsp; GenAI and ML
+      </p>
+      <div class="header-links">
+        <a href="mailto:rsharma5752@gmail.com">rsharma5752@gmail.com</a>
+        <a href="https://www.linkedin.com/in/rishabh-sharma-a5b64b1b4/" target="_blank">LinkedIn</a>
+        <span>+91 98716 49498</span>
+        <span>Gurugram, India</span>
+      </div>
+    </div>
+    <div class="photo">
+      <!-- To add your photo, replace this span with:
+           <img src="photo.jpg" alt="Rishabh Sharma">        -->
+      <span>your<br>photo<br>here</span>
+    </div>
+  </header>
+
+  <!-- ABOUT -->
+  <p class="about">
+    I build GenAI systems that work at scale. My path has taken me from founding a venture-backed
+    EV startup and filing patents, to publishing NLP research, to shipping production AI products
+    at Bain and Company. I am drawn to problems where rigorous engineering meets genuinely messy
+    real-world data.
+  </p>
+
+  <!-- JOURNEY -->
+  <div class="section-label">Journey</div>
+  <div class="journey">
+
+    <!-- ASSOCIATE -->
+    <div class="stop now">
+      <div class="stop-dot now"></div>
+      <div class="stop-card">
+        <div class="stop-meta">
+          <span class="stop-period">Apr 2026 – present</span>
+          <span class="phase-tag tag-now">Current</span>
+        </div>
+        <p class="stop-role">Associate</p>
+        <p class="stop-org">Bain and Company, Gurugram</p>
+        <div class="stop-prose">
+          <p>I am currently building <strong>ExcelGPT</strong>, an agentic GenAI application that lets users interrogate Excel files in plain English. The core of the system is a multi-LLM pipeline: when a file is uploaded, an LLM analyses each column to classify its purpose, builds a cross-sheet formula dependency graph, and produces structural skeletons of the data. When a query arrives, the system classifies intent and routes it through a three-stage pipeline that prunes relevant tables from the full inventory, scores chunks for relevance in parallel, and generates DuckDB SQL with automatic self-repair on failure.</p>
+          <p>The central design insight is treating every Excel cell as a string and resolving types at query time using <code>TRY_CAST</code>, which makes the system robust to the kind of mixed, malformed data that appears in real-world spreadsheets. For queries that return more data than fits in context, a synthesis layer answers the result in segments and consolidates them into a single plain-English response with source attribution.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ANALYST -->
+    <div class="stop bain">
+      <div class="stop-dot bain"></div>
+      <div class="stop-card">
+        <div class="stop-meta">
+          <span class="stop-period">Jul 2024 – Apr 2026</span>
+          <span class="phase-tag tag-bain">Bain and Company</span>
+        </div>
+        <p class="stop-role">Analyst</p>
+        <p class="stop-org">Bain and Company, Gurugram</p>
+        <div class="stop-prose">
+          <p>My first major project at Bain was co-founding <strong>MetricEdge</strong>, an internal GenAI product for benchmarking data extraction. The core challenge was reading structured data out of complex PowerPoint charts accurately, where OCR-based approaches consistently fell short. By reverse-engineering the binary format of PPT files and extracting chart data directly from the file structure, we built a pipeline that hit 97% accuracy while cutting manual extraction effort by 70%. Deployed on Azure, MetricEdge now runs automatically across 10+ global practices including retail, consumer products, enterprise technology, and advanced manufacturing, saving each team over 15 FTE hours a week. I presented the system to Bain's CTO and senior AI leadership.</p>
+          <p>Alongside MetricEdge, I built a multi-agent chatbot for financial services that interprets open-ended analyst queries, traverses a hierarchy of industries, functions, and sub-functions, and surfaces the right KPIs from Bain's proprietary benchmark database. I also developed a compliance tool for Bain's AI and Data Governance team, generating over 150 personalised reports with scores, identified gaps, and remediation actions. Across both projects, I was rated in the top 5% of the firm and received a "Far Exceeded Expectations" rating in problem-solving and case delivery.</p>
+          <p>Before joining full-time, I spent six months as an Analyst Intern, working with a multinational FMCG company to analyse business trends across 23 countries in the coffee sector using Alteryx, SQL, Python, and Snowflake. I built a deep learning pipeline that automated report generation and increased efficiency by 66%, which led to a Pre-Placement Offer.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SELECTRICGO -->
+    <div class="stop startup">
+      <div class="stop-dot startup"></div>
+      <div class="stop-card">
+        <div class="stop-meta">
+          <span class="stop-period">Apr 2021 – Dec 2023</span>
+          <span class="phase-tag tag-startup">Startup</span>
+        </div>
+        <p class="stop-role">Co-Founder and CEO</p>
+        <p class="stop-org">SelectricGo, Delhi</p>
+        <div class="stop-prose">
+          <p>Before consulting, I spent two and a half years building <strong>SelectricGo</strong>, an AI and data science startup tackling the information problem in India's EV charging network. We aggregated live data from 2,300+ charging stations across the country, built a proprietary traffic-sensing system with a patent filed, and developed an in-house route optimizer that planned trips around a specific EV's range and battery characteristics.</p>
+          <p>The company was incubated at AIC Sangam, one of India's leading cleantech incubators, and brought in a strategic technology partnership with MathWorks. We made it to the top 10% of Y Combinator's Summer 2022 batch and secured a $7,000 grant from the Government of India. Leading a 15-member team through that process, from early product to partnership and fundraising, is what pushed me toward building things that matter at scale.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RESEARCH -->
+  <div class="section-label">Research</div>
+  <div class="research-grid">
+
+    <div class="paper">
+      <div class="paper-tag">CODE AI '24<br>B.Tech Thesis<br>DTU</div>
+      <div>
+        <p class="paper-title">Mental Health Assessment through Multi-Modal Data using AI</p>
+        <p class="paper-body">Built a Hierarchical Attention Network combining transcript, audio, and video signals from the DAIC-WOZ clinical interview dataset to classify patients with and without symptoms of depression. Received an A+ grade, the highest in the department.</p>
+      </div>
+    </div>
+
+    <div class="paper">
+      <div class="paper-tag">IN-CAACT '24<br>Biometrics Lab<br>DTU</div>
+      <div>
+        <p class="paper-title">A Study on Robustness of NLP Models</p>
+        <p class="paper-body">Developed BEACOMP, a custom adversarial attack using the TextAttack framework, to probe how fragile standard NLP models really are. Tested against five models, the attack dropped average accuracy from 97.16% to 1.91%, exposing significant brittleness in widely-used pipelines.</p>
+      </div>
+    </div>
+
+    <div class="paper">
+      <div class="paper-tag">IATMSI '25<br>DSM, Delhi</div>
+      <div>
+        <p class="paper-title">Twitter Sentiment Analysis of the EV Industry in India using NLP</p>
+        <p class="paper-body">Used the Tweepy library to collect real-time tweets and applied NLP sentiment models to map how Indians talk about electric vehicles, tracking perception across topics like charging infrastructure, pricing, and range.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SKILLS + EDUCATION -->
+  <div class="bottom-grid">
+    <div>
+      <div class="section-label">Skills</div>
+      <div class="skill-group">
+        <p class="skill-cat">Languages</p>
+        <div class="skill-tags">
+          <span class="stag">Python</span>
+          <span class="stag">SQL</span>
+          <span class="stag">C++</span>
+          <span class="stag">Java</span>
+          <span class="stag">XML</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <p class="skill-cat">AI / ML</p>
+        <div class="skill-tags">
+          <span class="stag">GenAI</span>
+          <span class="stag">Agentic AI</span>
+          <span class="stag">NLP</span>
+          <span class="stag">Deep Learning</span>
+          <span class="stag">PyTorch</span>
+          <span class="stag">TensorFlow</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <p class="skill-cat">Data and Cloud</p>
+        <div class="skill-tags">
+          <span class="stag">Azure</span>
+          <span class="stag">AWS</span>
+          <span class="stag">Snowflake</span>
+          <span class="stag">Alteryx</span>
+          <span class="stag">Tableau</span>
+          <span class="stag">Excel</span>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="section-label">Education</div>
+      <div class="edu-item">
+        <p class="edu-degree">B.Tech, Electrical Engineering</p>
+        <p class="edu-school">Delhi Technological University, 2024</p>
+        <span class="edu-note">8.25 / 10 CGPA &nbsp;·&nbsp; Highest thesis grade in dept.</span>
+      </div>
+      <div class="edu-item">
+        <p class="edu-degree">CBSE Class XII</p>
+        <p class="edu-school">Kendriya Vidyalaya Arjangarh, Delhi, 2019</p>
+        <span class="edu-note">93.50% &nbsp;·&nbsp; Top 1% in JEE Maths (1.2M+ students)</span>
+      </div>
+      <div class="edu-item">
+        <p class="edu-degree">CBSE Class X</p>
+        <p class="edu-school">Kendriya Vidyalaya Arjangarh, Delhi, 2017</p>
+        <span class="edu-note">10 / 10 CGPA &nbsp;·&nbsp; Top 0.1% nationally</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <span>Rishabh Sharma &nbsp;·&nbsp; Gurugram, India</span>
+    <span>Last updated May 2026</span>
+  </footer>
+
+</body>
+</html>
