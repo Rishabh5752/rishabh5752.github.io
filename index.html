@@ -39,9 +39,9 @@
       font-family: 'Outfit', sans-serif;
       font-size: 15px;
       line-height: 1.75;
-      max-width: 820px;
+      max-width: 1100px;
       margin: 0 auto;
-      padding: 4.5rem 2rem 7rem;
+      padding: 4.5rem 3rem 7rem;
     }
 
     a { color: var(--link); text-decoration: none; }
@@ -406,9 +406,7 @@
       </div>
     </div>
     <div class="photo">
-      <!-- To add your photo, replace this span with:
-           <img src="photo.jpg" alt="Rishabh Sharma">        -->
-      <span>your<br>photo<br>here</span>
+      <img src="photo.jpeg" alt="rishabh sharma">
     </div>
   </header>
 
@@ -435,8 +433,7 @@
         <p class="stop-role">Associate</p>
         <p class="stop-org">Bain and Company, Gurugram</p>
         <div class="stop-prose">
-          <p>I am currently building <strong>ExcelGPT</strong>, an agentic GenAI application that lets users interrogate Excel files in plain English. The core of the system is a multi-LLM pipeline: when a file is uploaded, an LLM analyses each column to classify its purpose, builds a cross-sheet formula dependency graph, and produces structural skeletons of the data. When a query arrives, the system classifies intent and routes it through a three-stage pipeline that prunes relevant tables from the full inventory, scores chunks for relevance in parallel, and generates DuckDB SQL with automatic self-repair on failure.</p>
-          <p>The central design insight is treating every Excel cell as a string and resolving types at query time using <code>TRY_CAST</code>, which makes the system robust to the kind of mixed, malformed data that appears in real-world spreadsheets. For queries that return more data than fits in context, a synthesis layer answers the result in segments and consolidates them into a single plain-English response with source attribution.</p>
+          <p>Building <strong>ExcelGPT</strong> — an agentic GenAI app that lets users interrogate Excel files in plain English. A multi-LLM pipeline classifies columns, maps cross-sheet formula dependencies, and routes queries through intent classification → table pruning → DuckDB SQL generation with automatic self-repair. The core insight: treat every cell as a string and resolve types at query time with <code>TRY_CAST</code>, making the system robust to real-world messy data.</p>
         </div>
       </div>
     </div>
@@ -452,9 +449,8 @@
         <p class="stop-role">Analyst</p>
         <p class="stop-org">Bain and Company, Gurugram</p>
         <div class="stop-prose">
-          <p>My first major project at Bain was co-founding <strong>MetricEdge</strong>, an internal GenAI product for benchmarking data extraction. The core challenge was reading structured data out of complex PowerPoint charts accurately, where OCR-based approaches consistently fell short. By reverse-engineering the binary format of PPT files and extracting chart data directly from the file structure, we built a pipeline that hit 97% accuracy while cutting manual extraction effort by 70%. Deployed on Azure, MetricEdge now runs automatically across 10+ global practices including retail, consumer products, enterprise technology, and advanced manufacturing, saving each team over 15 FTE hours a week. I presented the system to Bain's CTO and senior AI leadership.</p>
-          <p>Alongside MetricEdge, I built a multi-agent chatbot for financial services that interprets open-ended analyst queries, traverses a hierarchy of industries, functions, and sub-functions, and surfaces the right KPIs from Bain's proprietary benchmark database. I also developed a compliance tool for Bain's AI and Data Governance team, generating over 150 personalised reports with scores, identified gaps, and remediation actions. Across both projects, I was rated in the top 5% of the firm and received a "Far Exceeded Expectations" rating in problem-solving and case delivery.</p>
-          <p>Before joining full-time, I spent six months as an Analyst Intern, working with a multinational FMCG company to analyse business trends across 23 countries in the coffee sector using Alteryx, SQL, Python, and Snowflake. I built a deep learning pipeline that automated report generation and increased efficiency by 66%, which led to a Pre-Placement Offer.</p>
+          <p>Co-founded <strong>MetricEdge</strong>, Bain's internal GenAI product for benchmarking data extraction. By reverse-engineering PPT binary files instead of using OCR, the pipeline reached 97% accuracy and cut manual effort by 70% — deployed on Azure across 10+ global practices, saving 15+ FTE hours/week each. Presented to Bain's CTO and senior AI leadership.</p>
+          <p>Also built a multi-agent financial services chatbot that surfaces KPIs from Bain's proprietary benchmark database, and a compliance tool generating 150+ personalised governance reports. Rated top 5% firm-wide with a "Far Exceeded Expectations" mark. Prior to joining full-time, an Analyst Internship on a 23-country FMCG coffee client led to a deep learning pipeline that automated trend reporting (66% efficiency gain) and earned a Pre-Placement Offer.</p>
         </div>
       </div>
     </div>
@@ -470,8 +466,7 @@
         <p class="stop-role">Co-Founder and CEO</p>
         <p class="stop-org">SelectricGo, Delhi</p>
         <div class="stop-prose">
-          <p>Before consulting, I spent two and a half years building <strong>SelectricGo</strong>, an AI and data science startup tackling the information problem in India's EV charging network. We aggregated live data from 2,300+ charging stations across the country, built a proprietary traffic-sensing system with a patent filed, and developed an in-house route optimizer that planned trips around a specific EV's range and battery characteristics.</p>
-          <p>The company was incubated at AIC Sangam, one of India's leading cleantech incubators, and brought in a strategic technology partnership with MathWorks. We made it to the top 10% of Y Combinator's Summer 2022 batch and secured a $7,000 grant from the Government of India. Leading a 15-member team through that process, from early product to partnership and fundraising, is what pushed me toward building things that matter at scale.</p>
+          <p><strong>SelectricGo</strong> aggregated live data from 2,300+ EV charging stations across India, built a proprietary traffic-sensing system (patent filed), and developed an in-house route optimizer tailored to individual EV specs. Incubated at AIC Sangam, partnered with MathWorks, reached the top 10% of Y Combinator Summer 2022, and secured a $7,000 Government of India grant — leading a 15-member team end-to-end.</p>
         </div>
       </div>
     </div>
@@ -486,7 +481,7 @@
       <div class="paper-tag">CODE AI '24<br>B.Tech Thesis<br>DTU</div>
       <div>
         <p class="paper-title">Mental Health Assessment through Multi-Modal Data using AI</p>
-        <p class="paper-body">Built a Hierarchical Attention Network combining transcript, audio, and video signals from the DAIC-WOZ clinical interview dataset to classify patients with and without symptoms of depression. Received an A+ grade, the highest in the department.</p>
+        <p class="paper-body">Hierarchical Attention Network combining transcript, audio, and video signals from the DAIC-WOZ clinical dataset to classify depression. Received an A+ — highest grade in the department.</p>
       </div>
     </div>
 
@@ -494,7 +489,7 @@
       <div class="paper-tag">IN-CAACT '24<br>Biometrics Lab<br>DTU</div>
       <div>
         <p class="paper-title">A Study on Robustness of NLP Models</p>
-        <p class="paper-body">Developed BEACOMP, a custom adversarial attack using the TextAttack framework, to probe how fragile standard NLP models really are. Tested against five models, the attack dropped average accuracy from 97.16% to 1.91%, exposing significant brittleness in widely-used pipelines.</p>
+        <p class="paper-body">Developed BEACOMP, a custom adversarial attack using TextAttack, that dropped average accuracy across five NLP models from 97.16% to 1.91% — exposing significant brittleness in widely-used pipelines.</p>
       </div>
     </div>
 
@@ -502,7 +497,7 @@
       <div class="paper-tag">IATMSI '25<br>DSM, Delhi</div>
       <div>
         <p class="paper-title">Twitter Sentiment Analysis of the EV Industry in India using NLP</p>
-        <p class="paper-body">Used the Tweepy library to collect real-time tweets and applied NLP sentiment models to map how Indians talk about electric vehicles, tracking perception across topics like charging infrastructure, pricing, and range.</p>
+        <p class="paper-body">Used Tweepy and NLP sentiment models to map how Indians talk about EVs in real time — tracking perception across charging infrastructure, pricing, and range.</p>
       </div>
     </div>
 
